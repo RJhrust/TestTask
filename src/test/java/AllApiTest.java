@@ -6,6 +6,6 @@ import org.junit.runners.Suite;
         GetTest.class,
         PostTest.class,
 })
-//@RunWith(GetTest.class)
 public class AllApiTest {
+
 }

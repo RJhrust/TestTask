@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Category(AllApiTest.class)
+@Category(AllApiTest.class)
 public class PostTest {
 
 
@@ -22,7 +22,8 @@ public class PostTest {
         Response res = given().contentType("application/json").body("{\"email\":\"eve.holt@reqres.in\",\"password\":\"pistol\"}").when().post("/api/register");
 
         String body = res.getBody().asString();
-        System.out.println(body);
+        String wait = "\\{\"id\"\\:.,\"token\"\\:.\"\\}";
+       Assert.assertEquals(true , body.matches(wait));
 
     }
 
@@ -33,6 +34,6 @@ public class PostTest {
         Response res = given().contentType("application/json").body("{\"email\":\"eve.holt@reqres.in\"}").when().post("/api/register");
 
         String body = res.getBody().asString();
-        System.out.println(body);
+        Assert.assertEquals("{"+"\"error\":\"Missing password\""+"}",body);
     }
 }
