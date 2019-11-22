@@ -1,1 +1,2 @@
-Too ran test
+#Too ran test use 
+mvn clean test -PAllApiTest 

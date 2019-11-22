@@ -1,36 +1,32 @@
-//import utils.Utils;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
+import static junit.framework.TestCase.assertEquals;
 import org.junit.*;
-import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
-
-import java.io.IOException;
+import utils.Utils;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@Category(AllApiTest.class)
 public class PostTest {
+Utils utils = new Utils();
 
+@Before
+public void setup(){
+    utils.setBaseURI();
+}
 
     @Test
-    public void postQurePosetiv()throws IOException {
-        RestAssured.baseURI = "https://reqres.in";
-     //   RestAssured.baseURI = utils.setURL();
-
-        Response res = given().contentType("application/json").body("{\"email\":\"eve.holt@reqres.in\",\"password\":\"pistol\"}").when().post("/api/register");
+    public void postQurePosetiv() {
+    int sucsescod = 200;
+    Response res = given().contentType("application/json").body("{\"email\":\"eve.holt@reqres.in\",\"password\":\"pistol\"}").when().post("/api/register");
 
         String body = res.getBody().asString();
-        String wait = "\\{\"id\"\\:.,\"token\"\\:.\"\\}";
-       Assert.assertEquals(true , body.matches(wait));
-
+        int recod = res.getStatusCode();
+       assertEquals(sucsescod , recod);
     }
 
     @Test
     public void postQureNegativ(){
-        RestAssured.baseURI = "https://reqres.in";
-
         Response res = given().contentType("application/json").body("{\"email\":\"eve.holt@reqres.in\"}").when().post("/api/register");
 
         String body = res.getBody().asString();

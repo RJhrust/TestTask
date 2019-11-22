@@ -1,23 +1,32 @@
 package utils;
 
 
-import java.io.*;
+import io.restassured.RestAssured;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class Utils {
-
-    public String setURL()throws IOException {
-        String host = "";
+InputStream fl;
+    //Sets Base URI
+    public void setBaseURI (){
+        Properties prop = new Properties();
+        String propFileName = "config.properties";
         try {
-            InputStream conf =new FileInputStream("C:\\Users\\Anton.Rozov\\IdeaProjects\\TestTask\\src\\resources");
 
-            Properties prop = new Properties();
-            prop.load(conf);
-           host = prop.getProperty("host");
+            fl = getClass().getClassLoader().getResourceAsStream(propFileName);
+            if (fl !=null) {
+                prop.load(fl);
+            }else {
+                throw new FileNotFoundException("Property file'" + propFileName + "' not found in the classpath");
+            }
         }catch (IOException e){
-
+            System.out.println(e);
         }
-
-        return host;
+        String host = prop.getProperty("host");
+        RestAssured.baseURI = host;
     }
 }
